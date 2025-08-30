@@ -1,4 +1,18 @@
 const createAccount = () => {
+
+//  const CheckPassword = () => {
+//   const value1 = document.getElementsByClassName("password");
+//   const value2 = document.getElementsByClassName("confirm");
+
+//   if (value1 === value2) {
+//     return "";
+//   } else {
+//     return (
+//       <p>値が一致しません</p>
+//     )
+//   }
+//  }
+
   return (
     <>
       <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
@@ -51,6 +65,7 @@ const createAccount = () => {
                 required
                 autoComplete="current-password"
                 className="lock w-full rounded-md bg-white/5 px-3 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500"
+                name="password"
               />
               <label
                 htmlFor="password"
@@ -63,8 +78,10 @@ const createAccount = () => {
                 id="password"
                 required
                 autoComplete="current-password"
-                className="lock w-full rounded-md bg-white/5 px-3 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500"
+                className="lock w-full rounded-md bg-white/5 px-3 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 "
+                name="confirm"
               />
+              {/* {CheckPassword()} */}
             </div>
             <div>
               <button
