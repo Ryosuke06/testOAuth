@@ -1,1 +1,0 @@
-# study-Azure-Trigger-Strage
