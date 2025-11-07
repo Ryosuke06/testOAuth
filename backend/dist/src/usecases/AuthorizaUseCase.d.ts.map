@@ -1,0 +1,1 @@
+{"version":3,"file":"AuthorizaUseCase.d.ts","sourceRoot":"","sources":["../../../src/usecases/AuthorizaUseCase.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,uBAAuB,EAAE,MAAM,6CAA6C,CAAC;AAEtF,qBAAa,gBAAgB;IACf,OAAO,CAAC,uBAAuB;gBAAvB,uBAAuB,EAAE,uBAAuB;IAC9D,aAAa,CACjB,SAAS,EAAE,MAAM,EACjB,WAAW,EAAE,MAAM,EACnB,aAAa,EAAE,MAAM,EAAE,EACvB,aAAa,EAAE,MAAM;CA2CxB"}

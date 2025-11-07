@@ -2,15 +2,14 @@
   // Visit https://aka.ms/tsconfig to read more about this file
   "compilerOptions": {
     // File Layout
-    "rootDir": "src",
-    "outDir": "dist",
+    "outDir": "./dist",
 
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
     "module": "commonjs",
     "target": "esnext",
-    "types": [],
-    "lib": ["es6", "dom"],
+    "types": ["node"],
+    "lib": ["es6"],
     // For nodejs:
     // "lib": ["esnext"],
     // "types": ["node"],
@@ -24,6 +23,7 @@
     // Stricter Typechecking Options
     "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": true,
+    "resolveJsonModule": true,
 
     // Style Options
     // "noImplicitReturns": true,
@@ -36,7 +36,7 @@
     // Recommended Options
     "strict": true,
     "jsx": "react-jsx",
-    "verbatimModuleSyntax": true,
+    "verbatimModuleSyntax": false,
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
@@ -44,5 +44,6 @@
 
     "allowJs": true,
     "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true
   }
 }
