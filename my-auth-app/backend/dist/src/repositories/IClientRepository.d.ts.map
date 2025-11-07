@@ -1,0 +1,1 @@
+{"version":3,"file":"IClientRepository.d.ts","sourceRoot":"","sources":["../../../src/repositories/IClientRepository.ts"],"names":[],"mappings":"AAAA,OAAO,MAAM,GAAG,QAAQ,kBAAkB,CAAC,CAAC;AAE5C,MAAM,WAAW,iBAAiB;IAChC,QAAQ,CAAC,QAAQ,EAAE,MAAM,GAAG,OAAO,CAAC,MAAM,CAAC,MAAM,GAAG,IAAI,CAAC,CAAC;CAC3D"}
