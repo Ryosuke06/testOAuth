@@ -13,12 +13,7 @@ const port = 8001;
 
 // }
 
-app.get("/authorization", async (req, res) => {
-  res.send("Hello World!");
-});
-
-app.post("/token", async (req, res) => {
-  const 
+app.post("/decision", async (req, res) => {
   res.send("POST request to the homepage");
 });
 

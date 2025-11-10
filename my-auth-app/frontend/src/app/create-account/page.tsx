@@ -1,17 +1,27 @@
-const createAccount = () => {
+"use client";
 
-//  const CheckPassword = () => {
-//   const value1 = document.getElementsByClassName("password");
-//   const value2 = document.getElementsByClassName("confirm");
+import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
-//   if (value1 === value2) {
-//     return "";
-//   } else {
-//     return (
-//       <p>値が一致しません</p>
-//     )
-//   }
-//  }
+export const CreateAccount = () => {
+  const searchParams = useSearchParams();
+
+  const clientId = searchParams.get("client_id");
+  const redirectURI = searchParams.get("redirect_uri");
+  const scope = searchParams.get("scope");
+  const state = searchParams.get("state");
+  //  const CheckPassword = () => {
+  //   const value1 = document.getElementsByClassName("password");
+  //   const value2 = document.getElementsByClassName("confirm");
+
+  //   if (value1 === value2) {
+  //     return "";
+  //   } else {
+  //     return (
+  //       <p>値が一致しません</p>
+  //     )
+  //   }
+  //  }
 
   return (
     <>
@@ -91,6 +101,12 @@ const createAccount = () => {
                 Create Account
               </button>
             </div>
+            <div>
+              <p>clientID: {clientId}</p>
+              <p>redirectURI: {redirectURI}</p>
+              <p>scope: {scope}</p>
+              <p>state: {state}</p>
+            </div>
           </form>
         </div>
       </div>
@@ -98,4 +114,12 @@ const createAccount = () => {
   );
 };
 
-export default createAccount;
+export default function Auth() {
+  return (
+    <Suspense
+      fallback={<div className="p-4 text-center text-gray-200">Loading...</div>}
+    >
+      <CreateAccount />
+    </Suspense>
+  );
+}
