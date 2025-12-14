@@ -42,7 +42,7 @@ export class TokenRepositoryImpl implements TokenRepository {
       return parsed && typeof parsed === "object" ? parsed : {};
     } catch (err: any) {
       if (err.code === "ENOENT") {
-        throw new Error();
+        return {};
       }
       throw err;
     }
@@ -102,7 +102,8 @@ export class TokenRepositoryImpl implements TokenRepository {
         "The authorization code is not found."
       );
     }
-    if (data.expiresAt.getTime() < Date.now()) {
+    const expiresAt = new Date(data.expiresAt);
+    if (expiresAt.getTime() < Date.now()) {
       this.delete(data.value, AUTH_STORE_PATH);
       throw new OAuthError(
         400,
@@ -110,7 +111,7 @@ export class TokenRepositoryImpl implements TokenRepository {
         "The authorization code has expired."
       );
     }
-    if (data.redirectUri === redirectUri) {
+    if (data.redirectUri !== redirectUri) {
       throw new OAuthError(400, "invalid_grant", "redirect_uri is wrong");
     }
     return data;
