@@ -37,6 +37,14 @@ export class AuthorizationRepositoryImpl {
     }
   }
 
+  async delete(value: string): Promise<void> {
+    const store = await this.readStore();
+    if (store[value]) {
+      delete store[value];
+      await this.writeStore(store);
+    }
+  }
+
   async lookUpClient(clientId: number): Promise<Client> {
     const client = clientData.client.find(
       (client) => client.client_id === clientId
