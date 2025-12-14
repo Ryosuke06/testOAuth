@@ -31,7 +31,7 @@ let AuthorizationPresentation = class AuthorizationPresentation {
             throw new Error("not user");
         }
         // 認可コードを生成して保存する
-        const code = await this.AuthorizeUseCase.createAuthorizationCode(user.userId, req.body.client_id, req.body.scope, req.body.redirect_uri);
+        const code = await this.AuthorizeUseCase.createAuthorizationCode(user.userId, req.body.client_id, req.body.scopes, req.body.redirect_uri);
         return res.redirect(302, `${location}&code=${code.value}`);
     }
     async token(req, res) {
@@ -44,7 +44,7 @@ let AuthorizationPresentation = class AuthorizationPresentation {
             accessToken: token.value,
             tokenType: "Bearer",
             expiresIn: site_1.AccessTokenDuration,
-            scope: token.scopes.join(""),
+            scope: (token.scopes || []).join(" "),
         });
     }
 };

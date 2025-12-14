@@ -35,7 +35,7 @@ export class AuthorizationPresentation {
     const code = await this.AuthorizeUseCase.createAuthorizationCode(
       user.userId,
       req.body.client_id,
-      req.body.scope,
+      req.body.scopes,
       req.body.redirect_uri
     );
 
@@ -57,7 +57,6 @@ export class AuthorizationPresentation {
       request.client_id,
       request.redirect_uri
     );
-
     const token = await this.AuthorizeUseCase.makeNewToken(
       code.value,
       code.userId,
@@ -69,7 +68,7 @@ export class AuthorizationPresentation {
       accessToken: token.value,
       tokenType: "Bearer",
       expiresIn: AccessTokenDuration,
-      scope: token.scopes.join(""),
+      scope: (token.scopes || []).join(" "),
     });
   }
 }
