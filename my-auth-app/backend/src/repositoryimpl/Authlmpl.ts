@@ -15,7 +15,9 @@ const STORE_PATH = path.resolve(
   "../data/authorizationCodeStore.json"
 );
 
-export class AuthorizationRepositoryImpl {
+import { AuthorizationRepository } from "../repositories/AuthorizationCodeRepository";
+
+export class AuthorizationRepositoryImpl implements AuthorizationRepository {
   //   constructor();
   private async writeStore(data: StoreMapSchema): Promise<void> {
     const dir = path.dirname(STORE_PATH);
@@ -45,12 +47,12 @@ export class AuthorizationRepositoryImpl {
     }
   }
 
-  async lookUpClient(clientId: number): Promise<Client> {
+  async lookUpClient(clientId: number): Promise<Client | null> {
     const client = clientData.client.find(
       (client) => client.client_id === clientId
     );
     if (!client) {
-      throw new Error("client_id is wrong.");
+      return null;
     }
     return new Client(
       client.client_id,
@@ -58,32 +60,32 @@ export class AuthorizationRepositoryImpl {
       client.redirect_urls
     );
   }
-  async lookUpUser(login_id: string, password: string): Promise<User> {
+  async lookupUser(login_id: string, password: string): Promise<User | null> {
     const user = userData.user.find(
       (user) => user.login_id === login_id && user.password === password
     );
     if (!user) {
-      throw new Error("login_id or password is wrong.");
+      return null;
     }
 
     return User.create(user.user_id, user.login_id, user.password);
   }
 
-  async filterScopes(valueScopes: string[]): Promise<string[]> {
+  async filterScopes(valueScopes: string[]): Promise<string> {
     if (!valueScopes || valueScopes.length === 0) {
       // valueScopes === null にした方がいい？
       throw new Error("権限がありません");
     }
 
     const scope = valueScopes.filter((value1) => {
-      SupportedScopes.find((value2) => {
-        value1 === value2;
+      return SupportedScopes.find((value2) => {
+        return value1 === value2;
       });
     });
-    return scope;
+    return scope.join(" ");
   }
 
-  async postAuthorizationCode(value: AuthorizationCode): Promise<void> {
+  async save(value: AuthorizationCode): Promise<void> {
     const store = await this.readStore();
     const item: authorizationCodeSchema = {
       value: value.value,

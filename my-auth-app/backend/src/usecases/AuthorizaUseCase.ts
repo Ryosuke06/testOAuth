@@ -2,7 +2,7 @@ import { StreamOptions } from "stream";
 import { Client } from "../domain/Client";
 import { AuthorizationRepository } from "../repositories/AuthorizationCodeRepository";
 import { User } from "../domain/User";
-import { injectable } from "tsyringe";
+import { injectable, inject } from "tsyringe";
 import { AuthorizationCode } from "../domain/AuthorizationCode";
 import { TokenRepository } from "../repositories/TokenRepository";
 import { Numeric } from "zod/v4/core/util.cjs";
@@ -39,7 +39,9 @@ export interface Info {
 @injectable()
 export class AuthorizeUseCase implements Info {
   constructor(
+    @inject("AuthorizationRepository")
     private authorizationRepository: AuthorizationRepository,
+    @inject("TokenRepository")
     private tokenRepository: TokenRepository
   ) {}
 

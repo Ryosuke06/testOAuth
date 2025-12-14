@@ -32,19 +32,60 @@ var __importStar = (this && this.__importStar) || (function () {
         return result;
     };
 })();
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthorizationRepositoryImpl = void 0;
 const Client_1 = require("../domain/Client");
 const clientData = __importStar(require("../mocks/ClientData.json"));
 const site_1 = require("../const/site");
+const User_1 = require("../domain/User");
+const userData = __importStar(require("../mocks/UserData.json"));
+const fs_1 = require("fs");
+const path_1 = __importDefault(require("path"));
+const STORE_PATH = path_1.default.resolve(__dirname, "../data/authorizationCodeStore.json");
 class AuthorizationRepositoryImpl {
     //   constructor();
+    async writeStore(data) {
+        const dir = path_1.default.dirname(STORE_PATH);
+        await fs_1.promises.mkdir(dir, { recursive: true }); //dataフォルダがなかったら自動で作成　また、ファイルがあったら、何もしない
+        await fs_1.promises.writeFile(STORE_PATH, JSON.stringify(data, null, 2), "utf-8");
+    }
+    async readStore() {
+        try {
+            const buf = await fs_1.promises.readFile(STORE_PATH, "utf-8");
+            const parsed = JSON.parse(buf);
+            return parsed && typeof parsed === "object" ? parsed : {};
+        }
+        catch (err) {
+            if (err.code === "ENOENT") {
+                await this.writeStore({});
+                return {};
+            }
+            throw err;
+        }
+    }
+    async delete(value) {
+        const store = await this.readStore();
+        if (store[value]) {
+            delete store[value];
+            await this.writeStore(store);
+        }
+    }
     async lookUpClient(clientId) {
         const client = clientData.client.find((client) => client.client_id === clientId);
         if (!client) {
-            throw new Error('client_id is wrong.');
+            return null;
         }
         return new Client_1.Client(client.client_id, client.client_name, client.redirect_urls);
+    }
+    async lookupUser(login_id, password) {
+        const user = userData.user.find((user) => user.login_id === login_id && user.password === password);
+        if (!user) {
+            return null;
+        }
+        return User_1.User.create(user.user_id, user.login_id, user.password);
     }
     async filterScopes(valueScopes) {
         if (!valueScopes || valueScopes.length === 0) {
@@ -52,11 +93,24 @@ class AuthorizationRepositoryImpl {
             throw new Error("権限がありません");
         }
         const scope = valueScopes.filter((value1) => {
-            site_1.SupportedScopes.find((value2) => {
-                value1 === value2;
+            return site_1.SupportedScopes.find((value2) => {
+                return value1 === value2;
             });
         });
-        return scope;
+        return scope.join(" ");
+    }
+    async save(value) {
+        const store = await this.readStore();
+        const item = {
+            value: value.value,
+            userId: value.userId,
+            clientId: value.clientId,
+            scopes: value.scopes,
+            redirectUri: value.redirectUri,
+            expiresAt: value.expiresAt,
+        };
+        store[value.value] = item;
+        await this.writeStore(store);
     }
 }
 exports.AuthorizationRepositoryImpl = AuthorizationRepositoryImpl;
