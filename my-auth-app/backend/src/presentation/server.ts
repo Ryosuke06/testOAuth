@@ -1,4 +1,9 @@
-import express from "express";
+import express, { NextFunction } from "express";
+import { Response } from "express";
+import { AuthorizationPresentation } from "./AuthPresentation";
+import { postAuthSchema } from "../schema/AuthSchema";
+import { container } from "tsyringe";
+import { setupContainer } from "../config/container";
 
 // const app: express.Express = express()
 // app.use(express.json())
@@ -9,12 +14,17 @@ import express from "express";
 const app = express();
 const port = 8001;
 
-// app.get("/authorization", (req, res)) => {
+setupContainer();
+const presentation = container.resolve(AuthorizationPresentation);
 
-// }
+app.post("/decision", async (req, res, next) => {
+  const presentation = container.resolve(AuthorizationPresentation);
+  return await presentation.decision(req, res);
+});
 
-app.post("/decision", async (req, res) => {
-  res.send("POST request to the homepage");
+app.post("/token", async (req, res, next) => {
+  const presentation = container.resolve(AuthorizationPresentation);
+  return await presentation.token(req, res);
 });
 
 app.listen(3010, () => {
