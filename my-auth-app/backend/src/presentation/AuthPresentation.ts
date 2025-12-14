@@ -1,19 +1,18 @@
-import { NextFunction, Request, Response } from "express";
-import { AccessToken } from "../domain/AccessToken";
+import { Request, Response } from "express";
 import {
   postAuthTypeSchema,
   postRequestTokenSchema,
 } from "../schema/AuthSchema";
 import { AuthorizeUseCase, type Info } from "../usecases/AuthorizaUseCase";
 import { inject, injectable } from "tsyringe";
-import { loadavg } from "os";
+
+import { AccessTokenDuration } from "../const/site";
 
 @injectable()
 export class AuthorizationPresentation {
   constructor(@inject("Info") private AuthorizeUseCase: Info) {}
   async decision(req: Request, res: Response): Promise<Response | void> {
     const request = req.body as postAuthTypeSchema;
-    const researchId = req.params.id;
 
     const location = `${request.redirect_uri}?state=${request.state}`;
 
@@ -60,9 +59,17 @@ export class AuthorizationPresentation {
     );
 
     const token = await this.AuthorizeUseCase.makeNewToken(
+      code.value,
       code.userId,
       code.clientId,
       code.scopes
     );
+
+    return res.json({
+      accessToken: token.value,
+      tokenType: "Bearer",
+      expiresIn: AccessTokenDuration,
+      scope: token.scopes.join(""),
+    });
   }
 }

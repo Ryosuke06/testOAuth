@@ -1,5 +1,5 @@
 import { randomBytes } from "crypto";
-import { AuthorizationCodeDuration } from "../const/site";
+import { AccessTokenDuration } from "../const/site";
 
 export class AuthorizationCode {
   constructor(
@@ -17,7 +17,7 @@ export class AuthorizationCode {
     scopes: string[],
     redirectUri: string
   ) {
-    const expiresAt = new Date(Date.now() + AuthorizationCodeDuration * 1000); //site.tsファイルで定義してある時間の有効期限
+    const expiresAt = new Date(Date.now() + AccessTokenDuration * 1000); //site.tsファイルで定義してある時間の有効期限
     const value = randomBytes(6).toString("base64url");
 
     return new AuthorizationCode(
