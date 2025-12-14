@@ -19,8 +19,10 @@ const ACCESS_TOKEN_PATH = path.resolve(
   "../data/accessTokenStore.json"
 );
 
-export class Token {
-  constructor(public params: any, public grant_type: string) {}
+import { TokenRepository } from "../repositories/TokenRepository";
+
+export class TokenRepositoryImpl implements TokenRepository {
+  // constructor(public params: any, public grant_type: string) {}
 
   private async writeStore(
     data: StoreMapSchema | StoreAccessTokenSchema,
@@ -114,7 +116,7 @@ export class Token {
     return data;
   }
 
-  async postAccessToken(accessToken: AccessToken) {
+  async postToken(accessToken: AccessToken): Promise<void> {
     const store = await this.readStore(ACCESS_TOKEN_PATH);
     store[accessToken.value] = accessToken;
     await this.writeStore(store, ACCESS_TOKEN_PATH);

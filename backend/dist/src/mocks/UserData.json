@@ -1,0 +1,9 @@
+{
+    "user": [
+        {
+            "user_id": 1,
+            "login_id": "john",
+            "password": "john"
+        }
+    ]
+}
