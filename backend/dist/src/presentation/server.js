@@ -15,7 +15,6 @@ const container_1 = require("../config/container");
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
-const port = 8001;
 (0, container_1.setupContainer)();
 app.post("/decision", async (req, res, next) => {
     const presentation = tsyringe_1.container.resolve(AuthPresentation_1.AuthorizationPresentation);

@@ -1,0 +1,10 @@
+{
+  "client": [
+    {
+      "client_id": 1,
+      "client_name": "My Client",
+      "scope": ["read", "write"],
+      "redirect_urls": ["http://example.com/"]
+    }
+  ]
+}

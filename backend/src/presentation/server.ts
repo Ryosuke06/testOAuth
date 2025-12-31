@@ -16,8 +16,6 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const port = 8001;
-
 setupContainer();
 
 app.post("/decision", async (req, res, next) => {
