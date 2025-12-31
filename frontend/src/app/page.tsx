@@ -3,7 +3,7 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 import { homeTypeInput } from "../../schema/AuthSchema";
-import { handleAuthDecision } from "./create-account/actions/post-OAuth";
+import { handleAuthDecision } from "./actions/post-OAuth";
 import { useForm, SubmitHandler } from "react-hook-form";
 import clientData from "../../mocks/ClientData.json";
 
@@ -15,12 +15,6 @@ function Page() {
   const redirectURI = searchParams.get("redirect_uri");
   const scopeParam = searchParams.get("scope") || "";
   const state = searchParams.get("state");
-
-  const scopes = scopeParam
-    ?.replace(/\s+/g, "+")
-    .split("+")
-    .map((s) => s.trim())
-    .filter(Boolean);
 
   const {
     register,

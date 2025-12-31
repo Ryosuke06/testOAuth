@@ -1,7 +1,7 @@
 "use server";
 
-import { homeTypeInput, postAuthSchema } from "../../../../schema/AuthSchema";
-import clientData from "../../../../mocks/ClientData.json";
+import { homeTypeInput, postAuthSchema } from "../../../schema/AuthSchema";
+import clientData from "../../../mocks/ClientData.json";
 import { redirect } from "next/dist/server/api-utils";
 
 export const handleAuthDecision = async (FormData: homeTypeInput) => {
