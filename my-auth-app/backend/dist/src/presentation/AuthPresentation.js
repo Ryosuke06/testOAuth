@@ -22,17 +22,34 @@ let AuthorizationPresentation = class AuthorizationPresentation {
     }
     async decision(req, res) {
         const request = req.body;
-        const location = `${request.redirect_uri}?state=${request.state}`;
+        const baseLocation = `${request.redirect_uri}?state=${request.state}`;
         if (request.approve === false) {
-            return res.redirect(302, `${location}&error=access_denied&error_description=End-user+authentication-failed.`);
+            return res.redirect(302, `${baseLocation}&error=access_denied&error_description=End-user+authentication-failed.`);
         }
+        // ここから試しに書いてみる
+        //　redirect_uriが配列か文字列か両方に対応
+        // const redirectUri =
+        //   Array.isArray(request.redirect_uri) && request.redirect_uri.length > 0
+        //     ? request.redirect_uri[0]
+        //     : (request.redirect_uri as unknown as string);
+        // const baseLocation = `${redirectUri}?state=${request.state}`;
+        // if (request.approve === false) {
+        //   const errorLocation = `${baseLocation}&error=access_denied&error_description=End-user+authentication-failed.`;
+        //   return res.status(200).json({
+        //     success: false,
+        //     redirect_uri: errorLocation,
+        //     error: "access_denied",
+        //     error_description: "End-user authentication failed.",
+        //   });
+        // }
+        // ここまで試しに書いてみる
         const user = await this.AuthorizeUseCase.findUser(request.login_id, request.password);
         if (user === null) {
             throw new Error("not user");
         }
         // 認可コードを生成して保存する
         const code = await this.AuthorizeUseCase.createAuthorizationCode(user.userId, req.body.client_id, req.body.scopes, req.body.redirect_uri);
-        return res.redirect(302, `${location}&code=${code.value}`);
+        return res.redirect(302, `${baseLocation}&code=${code.value}`);
     }
     async token(req, res) {
         const request = req.body;

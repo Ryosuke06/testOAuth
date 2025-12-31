@@ -14,12 +14,12 @@ export class AuthorizationPresentation {
   async decision(req: Request, res: Response): Promise<Response | void> {
     const request = req.body as postAuthTypeSchema;
 
-    const location = `${request.redirect_uri}?state=${request.state}`;
+    const baseLocation = `${request.redirect_uri}?state=${request.state}`;
 
     if (request.approve === false) {
       return res.redirect(
         302,
-        `${location}&error=access_denied&error_description=End-user+authentication-failed.`
+        `${baseLocation}&error=access_denied&error_description=End-user+authentication-failed.`
       );
     }
 
@@ -39,7 +39,7 @@ export class AuthorizationPresentation {
       req.body.redirect_uri
     );
 
-    return res.redirect(302, `${location}&code=${code.value}`);
+    return res.redirect(302, `${baseLocation}&code=${code.value}`);
   }
 
   async token(req: Request, res: Response): Promise<Response | void> {
