@@ -1,5 +1,6 @@
 # local azurite state
 __azurite_db*__.json
+AzuriteConfig
 
 # accidental nested copy from migration/stash operations
 my-auth-app/
