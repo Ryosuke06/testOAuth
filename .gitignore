@@ -1,6 +1,38 @@
+# OS/editor
+.DS_Store
+.vscode/
+
+# dependencies
+**/node_modules/
+
+# logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env / secrets
+.env*
+**/.env*
+*.pem
+
+# build outputs
+backend/dist/
+backend/index.js
+backend/index.js.map
+backend/index.d.ts
+backend/index.d.ts.map
+frontend/.next/
+frontend/out/
+**/coverage/
+
+# runtime/local data stores
+backend/src/data/accessTokenStore.json
+backend/src/data/authorizationCodeStore.json
+backend/dist/src/data/accessTokenStore.json
+backend/dist/src/data/authorizationCodeStore.json
+
 # local azurite state
 __azurite_db*__.json
 AzuriteConfig
-
-# accidental nested copy from migration/stash operations
-my-auth-app/
