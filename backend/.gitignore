@@ -39,3 +39,17 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# backend build outputs
+/dist
+/index.js
+/index.js.map
+/index.d.ts
+/index.d.ts.map
+
+# runtime/local data stores
+/src/data/accessTokenStore.json
+/src/data/authorizationCodeStore.json
+
+# local azurite files
+/**/__azurite_db*__.json
